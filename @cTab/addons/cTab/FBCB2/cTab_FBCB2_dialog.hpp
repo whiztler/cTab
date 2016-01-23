@@ -101,7 +101,7 @@ class cTab_FBCB2_dlg {
 		};
 		class btnF7: cTab_FBCB2_btnF7
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_FBCB2_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
 			tooltip = "Center Map On Current Position (F7)";
 		};
@@ -112,6 +112,8 @@ class cTab_FBCB2_dlg {
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_FBCB2_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_FBCB2_loadingtxt {};
 	};

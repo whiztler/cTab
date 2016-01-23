@@ -13,7 +13,7 @@
 
 #include <\cTab\android\cTab_android_controls.hpp>
 
-#define MENU_sizeEx pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE)
+#define MENU_sizeEx pxToScreen_H(27)
 #include "\cTab\shared\cTab_markerMenu_macros.hpp"
 
 class cTab_Android_dlg {
@@ -72,7 +72,7 @@ class cTab_Android_dlg {
 			{
 				class menuBackground: cTab_IGUIBack
 				{
-					idc = -1;
+					IDC_COUNTER
 					x = 0;
 					y = 0;
 					w = pxToScreen_W(cTab_GUI_android_OSD_MENU_W);
@@ -80,7 +80,7 @@ class cTab_Android_dlg {
 				};
 				class btnTextonoff: cTab_RscButton
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Text On/Off"; //--- ToDo: Localize;
 					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
 					x = pxToMenu_X(cTab_GUI_android_OSD_MENU_ELEMENT_X);
@@ -92,7 +92,7 @@ class cTab_Android_dlg {
 				};
 				class btnIcnSizeup: btnTextonoff
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Icon Size +"; //--- ToDo: Localize;
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(2));
 					tooltip = "Increase Icon/Text Size"; //--- ToDo: Localize;
@@ -100,7 +100,7 @@ class cTab_Android_dlg {
 				};
 				class btnIconSizedwn: btnTextonoff
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Icon Size -"; //--- ToDo: Localize;
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(3));
 					tooltip = "Decrease Icon/Text Size"; //--- ToDo: Localize;
@@ -108,7 +108,7 @@ class cTab_Android_dlg {
 				};
 				class btnF5: btnTextonoff
 				{
-					idc = -1;
+					IDC_COUNTER
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(7));
 					text = "Map Tools";
 					tooltip = "Toggle Map Tools (F5)";
@@ -116,7 +116,7 @@ class cTab_Android_dlg {
 				};
 				class btnF6: btnTextonoff
 				{
-					idc = -1;
+					IDC_COUNTER
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(5));
 					text = "Map Textures";
 					tooltip = "Toggle Map Textures (F6)";
@@ -124,7 +124,7 @@ class cTab_Android_dlg {
 				};
 				class btnF7: btnTextonoff
 				{
-					idc = -1;
+					IDC_COUNTER
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(6));
 					text = "Center Map";
 					action = "['cTab_Android_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
@@ -149,6 +149,7 @@ class cTab_Android_dlg {
 				{
 					idc = IDC_CTAB_MSG_LIST;
 					style = LB_MULTI;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE * 0.8);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGELIST_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGELIST_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGELIST_W);
@@ -157,7 +158,7 @@ class cTab_Android_dlg {
 				};
 				class msgframe: cTab_RscFrame
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Read Message"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGETEXT_FRAME_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGETEXT_FRAME_Y);
@@ -171,6 +172,7 @@ class cTab_Android_dlg {
 					style = ST_MULTI;
 					lineSpacing = 0.2;
 					text = "No Message Selected"; //--- ToDo: Localize;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGETEXT_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGETEXT_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGETEXT_W);
@@ -179,7 +181,7 @@ class cTab_Android_dlg {
 				};
 				class deletebtn: cTab_RscButton
 				{
-					idc = IDS_CTAB_MSG_BTNDELETE;
+					idc = IDC_CTAB_MSG_BTNDELETE;
 					text = "Delete"; //--- ToDo: Localize;
 					tooltip = "Delete Selected Message(s)";
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_DELETE_X);
@@ -190,7 +192,7 @@ class cTab_Android_dlg {
 				};
 				class toCompose: cTab_RscButton
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Compose >>"; //--- ToDo: Localize;
 					tooltip = "Compose Messages";
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_MODE_X);
@@ -216,7 +218,7 @@ class cTab_Android_dlg {
 			{
 				class composeFrame: cTab_RscFrame
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Compose Message"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_COMPOSE_FRAME_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_COMPOSE_FRAME_Y);
@@ -227,6 +229,7 @@ class cTab_Android_dlg {
 				{
 					idc = IDC_CTAB_MSG_RECIPIENTS;
 					style = LB_MULTI;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE * 0.8);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_PLAYERLIST_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_PLAYERLIST_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_PLAYERLIST_W);
@@ -234,7 +237,7 @@ class cTab_Android_dlg {
 				};
 				class sendbtn: cTab_RscButton
 				{
-					idc = IDS_CTAB_MSG_BTNSEND;
+					idc = IDC_CTAB_MSG_BTNSEND;
 					text = "Send"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_SEND_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_BUTTON_SEND_Y);
@@ -249,14 +252,15 @@ class cTab_Android_dlg {
 					style = ST_MULTI;
 					lineSpacing = 0.2;
 					text = ""; //--- ToDo: Localize;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_W);
 					h = pxToScreen_H(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_H);
 				};
-			class toRead: cTab_RscButton
+				class toRead: cTab_RscButton
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Read >>"; //--- ToDo: Localize;
 					tooltip = "Read Messages";
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_MODE_X);
@@ -268,16 +272,17 @@ class cTab_Android_dlg {
 			};
 		};
 
-		// User Placed markers
-		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
-
 		/*
 			### Overlays ###
 		*/
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_android_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_android_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
 		class brightness: cTab_android_brightness {};
+		// ---------- USER MARKERS ------------
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 		// ---------- BACKGROUND ------------
 		class background: cTab_android_background {};
 		// ---------- MOVING HANDLEs ------------

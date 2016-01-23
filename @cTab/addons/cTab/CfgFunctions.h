@@ -5,6 +5,7 @@ class CfgFunctions
 		class Functions
 		{
 			file="cTab\functions";
+			class addNotification{};
 			class addToPairs{};
 			class addUserMarker{};
 			class centerMapOnPlayerPosition{};
@@ -18,11 +19,14 @@ class CfgFunctions
 			class deleteHelmetCam{};
 			class deleteUAVcam{};
 			class deleteUserMarker{};
+			class dirTo{};
+			class distance2D{};
 			class drawBftMarkers{};
 			class drawHook{};
 			class drawMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
+			class getBackgroundPosition{};
 			class getCopilot{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
@@ -38,9 +42,12 @@ class CfgFunctions
 			class open{};
 			class onPlayerInventoryChanged{};
 			class processCuratorKey{};
+			class processNotifications{};
 			class remoteControlUav{};
+			class setInterfacePosition{};
 			class setSettings{};
 			class setToPairs{};
+			class toggleIfPosition{};
 			class toggleMapTools{};
 			class translateUserMarker{};
 			class unitInEnabledVehicleSeat{};

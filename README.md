@@ -1,6 +1,7 @@
 cTab
 ====
-**Commander's Tablet - FBCB2, Blue Force Tracker, UAV, and Helmet Cam Interface**
+**Commander's Tablet - FBCB2, Blue Force Tracker, UAV, Helmet Cam and Messaging Interface**
+*Initially created by Riouken, currently maintained by Gundy*
 
 Thanks to
 ---------
@@ -40,6 +41,7 @@ Known Issues
 + Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This used to be an issue with Zeus but has been resolved as of cTab version 2.1. There might be other such cases though.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
 + When a UAV is being actively piloted and a cTab user is already connected to the UAV's gunner turret, it is currently impossible to detect that there is a gunner connected in order to prevent a second player to connect to the same gunner turret. Wonky things happen to the player in the gunner seat if a second player connects and it might break the game. [Please vote for a fix](http://feedback.arma3.com/view.php?id=23693).
++ When helmet cam item is added to the inventory prior to a mine detector, the mine detector will not work. Please vote for a fix [here](http://feedback.arma3.com/view.php?id=23925) and [here](http://feedback.arma3.com/view.php?id=23926).
 
 Required
 --------
@@ -51,16 +53,16 @@ Optional
 
 Media
 -----
-[![Tablet BFT](http://i.imgur.com/hKVHT6Sm.jpg)](http://i.imgur.com/hKVHT6S.jpg)
-[![Tablet UAV](http://i.imgur.com/CzQ0HhUm.jpg)](http://i.imgur.com/CzQ0HhU.jpg)
+[![Tablet BFT](http://i.imgur.com/HnHLiv7m.jpg)](http://i.imgur.com/HnHLiv7.jpg)
+[![Tablet UAV night](http://i.imgur.com/ehvx1tFm.jpg)](http://i.imgur.com/ehvx1tF.jpg)
+[![3D models](http://i.imgur.com/Niynrvmm.jpg)](http://i.imgur.com/Niynrvm.jpg)
 [![Vehicle FBCB2](http://i.imgur.com/bjarZTqm.jpg)](http://i.imgur.com/bjarZTq.jpg)
 [![TAD small](http://i.imgur.com/ngtjm2Dm.jpg)](http://i.imgur.com/ngtjm2D.jpg)
-[![TAD large](http://i.imgur.com/Rt9IVQ2m.jpg)](http://i.imgur.com/Rt9IVQ2.jpg)
+[![TAD large night](http://i.imgur.com/OVyYrkpm.jpg)](http://i.imgur.com/OVyYrkp.jpg)
 [![Android small](http://i.imgur.com/0lOIuvem.jpg)](http://i.imgur.com/0lOIuve.jpg)
-[![Android large](http://i.imgur.com/g6frBhdm.jpg)](http://i.imgur.com/g6frBhd.jpg)
-[![Android large topo](http://i.imgur.com/2RpXNyDm.jpg)](http://i.imgur.com/2RpXNyD.jpg)
-[![MicroDAGR small](http://i.imgur.com/ZoQjPMXm.jpg)](http://i.imgur.com/ZoQjPMX.jpg)
-[![MicroDAGR large](http://i.imgur.com/vEuteq0m.jpg)](http://i.imgur.com/vEuteq0.jpg)
+[![Android large night](http://i.imgur.com/aaPccktm.jpg)](http://i.imgur.com/aaPcckt.jpg)
+[![MicroDAGR small](http://i.imgur.com/ZI6XZznm.jpg)](http://i.imgur.com/ZI6XZzn.jpg)
+[![MicroDAGR large](http://i.imgur.com/aE3zcxjm.jpg)](http://i.imgur.com/aE3zcxj.jpg)
 [![cTab 1.0 release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
@@ -95,6 +97,7 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | `F7` |  Center map on current position. |
 | `CTRL` + `SHIFT` + `PAGE_UP` | Zoom in on the "small" TAD, MicroDAGR and Android. |
 | `CTRL` + `SHIFT` + `PAGE_DOWN` | Zoom out on the "small" TAD, MicroDAGR and Android. |
+| `CTRL` + `SHIFT` + `HOME` | Toggle interface position from left to right on the "small" TAD, MicroDAGR and Android. Reset all "large" interfaces to default position. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" variants) as well as the UAV view. |
 
 Note: To unlock a UAV turret, use the lock / unlock control command available to UAVs (default `CTRL` + `T`) when controlling the UAV turret in full-screen mode (either via the UAV terminal or the UAV gunner view accessible from the tablet).
@@ -212,20 +215,41 @@ this setVariable ["cTab_groupId","Fox",true];
 
 Changelog
 ---------
+### 2.2.2 ###
+* Fixed message composition and display elements having a black background after ArmA3 1.46 update
+
+### 2.2.1 ###
+* Added variable message decay to notification system (new-marker notifications are now shown for longer)
+* Fixed error regarding the helmet cam icon when looking at a cTab-box placed with Zeus
+* Fixed issue with notification system upon marker creation
+* Marker menu will now stay inside the device screen boundaries
+* Moved marker menu above brightness layer to allow it to show tool-tips properly
+* Tweaked marker menu size on Android
+
 ### 2.2.0 ###
-* Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left)
-* Added night mode to Android and MicroDAGR (switches automatically based on light conditions outside)
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
-* Replaced tablet model with new model made by Raspu
-* No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
-* Interface will now be closed if player is unconscious (requires ACE3 Medical)
-* Interface will now be closed if player lost the required device (requires ACE3 Common)
-* On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as white.
-* Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
-* Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
 * Added ability to message oneself to take notes
+* Added ability to switch interface position of TAD, Android and MicroDAGR in overlay mode from left to right default `CTRL + SHIFT + HOME`)
+* Added new and improved tablet interface background and 3D model, both made by Raspu
+* Added night mode to Tablet, Android and MicroDAGR (switches automatically based on light conditions outside), graphics mad by Raspu
+* Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left), graphics mad by Raspu
+* Added on-device notifications that will appear when for example a message has been received or a new marker was added
 * Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
+* Changed to brighter MicroDAGR interface background, made by Raspu
+* Changed to reworked Android and MicroDAGR 3D models, both made by Raspu
 * Fixed icons in list of messages being black
+* Fixed marker text alignment (some recent ArmA update changed the default from right to center)
+* General performance improvements
+* Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
+* Interactive mode (large interfaces) screen position will now be remembered and restored on load (can be reset to screen center using default `CTRL + SHIFT + HOME`)
+* Interface will now be closed if player is unconscious and ACE3 Medical is used
+* Interface will now be closed if player lost the required device and ACE3 is used
+* Minor interface tweaks
+* No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
+* On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as the standard blue (slightly different colour than the blue fire team).
+* Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
+* Speedup of interface startup
+* Updated all device iventory icons to match, made by Raspu
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

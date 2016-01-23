@@ -8,8 +8,8 @@
 #define PREFIX cTab
 #define MAJOR 2
 #define MINOR 2
-#define PATCHLVL 0
-#define BUILD 0
+#define PATCHLVL 2
+#define BUILD 5
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.32
@@ -95,7 +95,8 @@ class CfgWeapons
 		descriptionshort = "DK10 Rugged Tablet PC";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Commander's Tablet";
 		displayname = "Rugged Tablet";
-		picture = "\cTab\img\15th_rugged_tab_ico.paa";
+		picture = "\cTab\img\icon_dk10.paa";
+		model = "\ctab\data\itemDK10.p3d";
 		scope = 2;
 		simulation = "ItemGPS";
 		class ItemInfo {
@@ -108,7 +109,7 @@ class CfgWeapons
 		descriptionshort = "GD300 Rugged Wearable Computer";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "GD300 Android";
-		picture = "\cTab\img\itemAndroid_icon.paa";
+		picture = "\cTab\img\icon_Android.paa";
 		model = "\ctab\data\itemAndroid.p3d";
 		class ItemInfo {
 			mass = 5;
@@ -120,7 +121,7 @@ class CfgWeapons
 		descriptionshort = "HNV-2930 Micro Defense Advanced GPS Receiver";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "MicroDAGR";
-		picture = "\cTab\img\itemMicroDAGR_icon.paa";
+		picture = "\cTab\img\icon_MicroDAGR.paa";
 		model = "\ctab\data\itemMicroDAGR.p3d";
 		class ItemInfo {
 			mass = 6;
@@ -132,7 +133,7 @@ class CfgWeapons
 		descriptionshort = "HD Helmet Mounted Camera";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Used to record and stream video";
 		displayname = "Helmet Camera";
-		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
+		picture = "\cTab\img\cTab_helmetCam_ico.paa";
 		scope = 2;
 		simulation = "ItemMineDetector";
 		detectRange = -1;

@@ -73,16 +73,17 @@ class cTab_TAD_dlg
 		class on_screen_currentElevation: cTab_TAD_OSD_currentElevation {};
 		class on_screen_centerMapText: cTab_TAD_OSD_centerMapText {};
 
-		// ---------- USER MARKER MENU ------------
-		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
-
 		/*
 			### Overlays ###
 		*/
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_TAD_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_TAD_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
 		class brightness: cTab_TAD_brightness {};
+		// ---------- USER MARKERS ------------
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 		// ---------- BACKGROUND ------------
 		class background: cTab_TAD_background {};
 		// ---------- MOVING HANDLEs ------------
@@ -97,7 +98,7 @@ class cTab_TAD_dlg
 		class pwrbtn: cTab_RscButton_TAD_DNO
 		{
 			idc = IDC_CTAB_BTNMAIN;
-			onMouseButtonDown = "if (_this select 1 == 0) then {['cTab_TAD_dlg'] call cTab_fnc_toggleNightMode} else {if (_this select 1 == 1) then {[] call cTab_fnc_close};}";
+			onMouseButtonUp = "if (_this select 1 == 0) then {['cTab_TAD_dlg'] call cTab_fnc_toggleNightMode} else {if (_this select 1 == 1) then {[] call cTab_fnc_close};}";
 			tooltip = "left-click: Toggle DAY / NIGHT mode; right-click: Close interface";
 		};
 		class btnSymInc: cTab_RscButton_TAD_SYM_INC
@@ -114,13 +115,13 @@ class cTab_TAD_dlg
 		};
 		class btnBrtInc: cTab_RscButton_TAD_BRT_INC
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_incBrightness;";
 			tooltip = "Increase Brightness";
 		};
 		class btnBrtDec: cTab_RscButton_TAD_BRT_DEC
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_decBrightness;";
 			tooltip = "Decrease Brightness";
 		};
@@ -132,19 +133,19 @@ class cTab_TAD_dlg
 		};
 		class btnMapType: cTab_RscButton_TAD_OSB20
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_mapType_toggle;";
 			tooltip = "Toggle Map Type (F6)";
 		};
 		class btnMapTools: cTab_RscButton_TAD_OSB18
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_toggleMapTools;";
 			tooltip = "Toggle Map Tools (F5)";
 		};
 		class btnF7: cTab_RscButton_TAD_OSB19
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
 			tooltip = "Center Map On Current Position (F7)";
 		};

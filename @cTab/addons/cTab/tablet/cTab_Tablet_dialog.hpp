@@ -6,9 +6,13 @@
 
 
 //--- cTab
-#define GUI_GRID_H	(safezoneH * 1.15)
+#define GUI_GRID_H	(safezoneH * 1.2)
 #define GUI_GRID_W	(GUI_GRID_H * 3/4)
-#define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2)
+// since the actual map position is not in the center, we correct for it by shifting it right
+// (GUI_GRID_PX_W - cTab_GUI_tablet_MAP_W) / 2 - cTab_GUI_tablet_MAP_X
+// is 96.5, that is the pixel amount we have to shift by, devided by GUI_GRID_PX_W
+// to make it a ratio that we can apply to GUI_GRID_W in order to get a screen value to shift by
+#define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2 + (GUI_GRID_W * 96.5 / 2048))
 #define GUI_GRID_Y	(safezoneY + (safezoneH - GUI_GRID_H) / 2)
 
 #include <\cTab\tablet\cTab_Tablet_controls.hpp>
@@ -153,19 +157,19 @@ class cTab_Tablet_dlg {
 			{
 				class UAVListBG: cTab_Tablet_window_back_TL
 				{
-					idc = -1;
+					IDC_COUNTER
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_L_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
 				class UAVVidBG1: cTab_Tablet_window_back_TR
 				{
-					idc = -1;
+					IDC_COUNTER
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
 				class UAVVidBG2: cTab_Tablet_window_back_BR
 				{
-					idc = -1;
+					IDC_COUNTER
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_B_Y);
 				};
@@ -213,13 +217,13 @@ class cTab_Tablet_dlg {
 			{
 				class HcamListBG: cTab_Tablet_window_back_TL
 				{
-					idc = -1;
+					IDC_COUNTER
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_L_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
 				class HcamVidBG: cTab_Tablet_window_back_TR
 				{
-					idc = -1;
+					IDC_COUNTER
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
@@ -258,7 +262,7 @@ class cTab_Tablet_dlg {
 			{
 				class msgframe: cTab_RscFrame
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Read Message"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_MESSAGETEXT_FRAME_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_MESSAGETEXT_FRAME_Y);
@@ -290,7 +294,7 @@ class cTab_Tablet_dlg {
 				};
 				class composeFrame: cTab_RscFrame
 				{
-					idc = -1;
+					IDC_COUNTER
 					text = "Compose Message"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_COMPOSE_FRAME_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_COMPOSE_FRAME_Y);
@@ -308,7 +312,7 @@ class cTab_Tablet_dlg {
 				};
 				class deletebtn: cTab_RscButton_Tablet
 				{
-					idc = IDS_CTAB_MSG_BTNDELETE;
+					idc = IDC_CTAB_MSG_BTNDELETE;
 					text = "Delete"; //--- ToDo: Localize;
 					tooltip = "Delete Selected Message(s)";
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_BUTTON_DELETE_X);
@@ -319,7 +323,7 @@ class cTab_Tablet_dlg {
 				};
 				class sendbtn: cTab_RscButton_Tablet
 				{
-					idc = IDS_CTAB_MSG_BTNSEND;
+					idc = IDC_CTAB_MSG_BTNSEND;
 					text = "Send"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_BUTTON_SEND_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_BUTTON_SEND_Y);
@@ -351,18 +355,20 @@ class cTab_Tablet_dlg {
 			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
 			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 		};
-		// ---------- USER MARKER MENU ------------
-		#define cTab_IS_TABLET
-		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
-		#undef cTab_IS_TABLET
 
 		/*
 			### Overlays ###
 		*/
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_Tablet_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_Tablet_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
 		class brightness: cTab_Tablet_brightness {};
+		// ---------- USER MARKERS ------------
+		#define cTab_IS_TABLET
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
+		#undef cTab_IS_TABLET
 		// ---------- BACKGROUND ------------
 		class background: cTab_Tablet_background {};
 		// ---------- MOVING HANDLEs ------------
@@ -412,7 +418,7 @@ class cTab_Tablet_dlg {
 		};
 		class btnF7: cTab_Tablet_btnTrackpad
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_Tablet_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
 			tooltip = "Center Map On Current Position (F7)";
 		};
@@ -437,14 +443,14 @@ class cTab_Tablet_dlg {
 		class btnUP: cTab_Tablet_btnBrtUp
 		{
 			idc = IDC_CTAB_BTNUP;
-			action = "call cTab_fnc_txt_size_dec;";
-			tooltip = "Decrease Font";
+			action = "call cTab_fnc_txt_size_inc;";
+			tooltip = "Increase Font";
 		};
 		class btnDWN: cTab_Tablet_btnBrtDn
 		{
 			idc = IDC_CTAB_BTNDWN;
-			action = "call cTab_fnc_txt_size_inc;";
-			tooltip = "Increase Font";
+			action = "call cTab_fnc_txt_size_dec;";
+			tooltip = "Decrease Font";
 		};
 		class btnACT: cTab_Tablet_btnMouse
 		{

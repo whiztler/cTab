@@ -115,6 +115,10 @@
 #define pxToMenu_X(PIXEL) (((PIXEL) - cTab_GUI_android_OSD_MENU_X) / GUI_GRID_PX_W * GUI_GRID_W)
 #define pxToMenu_Y(PIXEL) (((PIXEL) - cTab_GUI_android_OSD_MENU_Y) / GUI_GRID_PX_H * GUI_GRID_H)
 
+// set IDC counter to 0
+__EXEC(cTab_IDC = 0);
+#define IDC_COUNTER __EXEC(cTab_IDC = cTab_IDC + 1); idc = __EVAL(cTab_IDC);
+
 class cTab_RscText_Android: cTab_RscText
 {
 	style = ST_CENTER;
@@ -212,7 +216,7 @@ class cTab_android_notificationLight
 };
 class cTab_android_header: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "#(argb,8,8,3)color(0,0,0,1)";
 	x = pxToScreen_X(cTab_GUI_android_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
@@ -221,7 +225,7 @@ class cTab_android_header: cTab_RscPicture
 };
 class cTab_android_on_screen_battery: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_battery_ca.paa";
 	x = pxToScreen_X(cTab_GUI_android_OSD_X(1));
 	y = pxToScreen_Y(cTab_GUI_android_MAP_Y + (cTab_GUI_android_OSD_HEADER_H - cTab_GUI_android_OSD_ICON_STD_SIZE) / 2);
@@ -238,14 +242,14 @@ class cTab_android_on_screen_time: cTab_RscText_android
 };
 class cTab_android_on_screen_signalStrength: cTab_android_on_screen_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_signalStrength_ca.paa";
 	x = pxToScreen_X(cTab_GUI_android_OSD_X(5) + cTab_GUI_android_OSD_ELEMENT_STD_W - cTab_GUI_android_OSD_ICON_STD_SIZE * 2);
 	colorText[] = COLOR_WHITE;
 };
 class cTab_android_on_screen_satellite: cTab_android_on_screen_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\a3\ui_f\data\map\Diary\signal_ca.paa";
 	x = pxToScreen_X(cTab_GUI_android_OSD_X(5) + cTab_GUI_android_OSD_ELEMENT_STD_W - cTab_GUI_android_OSD_ICON_STD_SIZE);
 	colorText[] = COLOR_WHITE;
@@ -316,7 +320,7 @@ class cTab_android_windowsBG: cTab_RscPicture
 // Define areas around the screen as interaction areas to allow screen movement
 class cTab_android_movingHandle_T: cTab_RscText_android
 {
-	idc = -1;
+	IDC_COUNTER
 	moving = 1;
 	colorBackground[] = COLOR_TRANSPARENT;
 	x = pxToScreen_X(0);
@@ -326,17 +330,20 @@ class cTab_android_movingHandle_T: cTab_RscText_android
 };
 class cTab_android_movingHandle_B: cTab_android_movingHandle_T
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_android_MAP_Y + cTab_GUI_android_MAP_H);
 	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_android_MAP_Y + cTab_GUI_android_MAP_H));
 };
 class cTab_android_movingHandle_L: cTab_android_movingHandle_T
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_android_MAP_X);
 	h = pxToScreen_H(cTab_GUI_android_MAP_H);
 };
 class cTab_android_movingHandle_R: cTab_android_movingHandle_L
 {
+	IDC_COUNTER
 	x = pxToScreen_X(cTab_GUI_android_MAP_X + cTab_GUI_android_MAP_W);
 	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_android_MAP_X + cTab_GUI_android_MAP_W));
 };
@@ -344,10 +351,17 @@ class cTab_android_movingHandle_R: cTab_android_movingHandle_L
 // transparent control that gets placed on top of the GUI to adjust brightness
 class cTab_android_brightness: cTab_RscText_Android
 {
-	idc = IDC_CTAB_BIGHTNESS;
+	idc = IDC_CTAB_BRIGHTNESS;
 	x = pxToScreen_X(cTab_GUI_android_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_android_MAP_W);
 	h = pxToScreen_H(cTab_GUI_android_MAP_H);
 	colorBackground[] = COLOR_TRANSPARENT;
+};
+class cTab_android_notification: cTab_RscText_Android {
+	idc = IDC_CTAB_NOTIFICATION;
+	x = pxToScreen_X(cTab_GUI_android_SCREEN_CONTENT_X + (cTab_GUI_android_SCREEN_CONTENT_W * 0.2) / 2);
+	y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y + cTab_GUI_android_SCREEN_CONTENT_H - 2 * cTab_GUI_android_OSD_TEXT_STD_SIZE);
+	w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W * 0.8);
+	colorBackground[] = COLOR_BLACK;
 };

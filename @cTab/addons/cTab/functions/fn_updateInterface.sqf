@@ -21,7 +21,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -56,10 +56,55 @@ if (isNil "_mode") then {
 
 {
 	call {
+		// ------------ DISPLAY POSITION ------------
+		if (_x select 0 == "dspIfPosition") exitWith {
+			_dspIfPosition = _x select 1;
+			
+			if !(_isDialog) then {
+				// get the current position of the background control
+				_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+				_backgroundPositionX = _backgroundPosition select 0 select 0;
+				_backgroundPositionW = _backgroundPosition select 0 select 2;
+				
+				// get the original position of the background control
+				_backgroundConfigPositionX = _backgroundPosition select 1 select 0;
+				
+				// figure out if we need to do anything
+				if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
+					// calculate offset required to shift position to the opposite
+					_xOffset = if (_backgroundPositionX == _backgroundConfigPositionX) then {
+							2 * safeZoneX + safeZoneW - _backgroundPositionW - 2 * _backgroundPositionX
+						} else {
+							_backgroundConfigPositionX - _backgroundPositionX
+						};
+					[_displayName,[_xOffset,0]] call cTab_fnc_setInterfacePosition;
+				};
+			};
+		};
+		// ------------ DIALOG POSITION ------------
+		if (_x select 0 == "dlgIfPosition") exitWith {
+			_backgroundOffset = _x select 1;
+			
+			if (_isDialog) then {
+				if (_backgroundOffset isEqualTo []) then {
+					_backgroundOffset = if (_interfaceInit) then {
+							[0,0]
+						} else {
+							// reset to defaults
+							_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+							[(_backgroundPosition select 1 select 0) - (_backgroundPosition select 0 select 0),(_backgroundPosition select 1 select 1) - (_backgroundPosition select 0 select 1)]
+						};
+				};
+				if !(_backgroundOffset isEqualTo [0,0]) then {
+					// move by offset
+					[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
+				};
+			};
+		};
 		// ------------ BRIGHTNESS ------------
 		// Value ranges from 0 to 1, 0 being off and 1 being full brightness
 		if (_x select 0 == "brightness") exitWith {
-			_osdCtrl = _display displayCtrl IDC_CTAB_BIGHTNESS;
+			_osdCtrl = _display displayCtrl IDC_CTAB_BRIGHTNESS;
 			if (!isNull _osdCtrl) then {
 				_brightness = _x select 1;
 				_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
@@ -87,13 +132,16 @@ if (isNil "_mode") then {
 				if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
 					if (_nightMode) then {"\cTab\img\microDAGR_background_night_ca.paa"} else {"\cTab\img\microDAGR_background_ca.paa"};
 				};
+				if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
+					if (_nightMode) then {"\cTab\img\tablet_background_night_ca.paa"} else {"\cTab\img\tablet_background_ca.paa"};
+				};
 				""
 			};
 			if (_background != "") then {
 				(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
 				// call brightness adjustment if this is outside of interface init
 				if (!_interfaceInit) then {
-					[[["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings]]] call cTab_fnc_updateInterface;
+					_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
 				};
 			};
 		};
@@ -118,7 +166,8 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_GRID,
 					IDC_CTAB_OSD_HOOK_ELEVATION,
 					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR]
+					IDC_CTAB_OSD_HOOK_DIR,
+					IDC_CTAB_NOTIFICATION]
 				};
 				if (_displayName == "cTab_Android_dlg") exitWith {
 					[3300,3301,3302,3303,3304,3305,3306,3307,
@@ -130,12 +179,14 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_GRID,
 					IDC_CTAB_OSD_HOOK_ELEVATION,
 					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR]
+					IDC_CTAB_OSD_HOOK_DIR,
+					IDC_CTAB_NOTIFICATION]
 				};
 				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307]
+					[3300,3301,3302,3303,3304,3305,3306,3307,
+					IDC_CTAB_NOTIFICATION]
 				};
-				[] // default
+				[IDC_CTAB_NOTIFICATION] // default
 			};
 			if !(_displayItems isEqualTo []) then {
 				_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
@@ -158,7 +209,7 @@ if (isNil "_mode") then {
 						
 						_mapTools = [_displayName,"mapTools"] call cTab_fnc_getSettings;
 						if (!isNil "_mapTools" && {_mapTools}) then {
-							_displayItemsToShow = _displayItemsToShow + [
+							_displayItemsToShow append [
 								IDC_CTAB_OSD_HOOK_GRID,
 								IDC_CTAB_OSD_HOOK_ELEVATION,
 								IDC_CTAB_OSD_HOOK_DST,
@@ -176,10 +227,23 @@ if (isNil "_mode") then {
 						// update scale and world position when not on interface init
 						if (!_interfaceInit) then {
 							if (_isDialog) then {
-								[[
-									["mapScaleDlg",[_displayName,"mapScaleDlg"] call cTab_fnc_getSettings],
-									["mapWorldPos",[_displayName,"mapWorldPos"] call cTab_fnc_getSettings]
-								]] call cTab_fnc_updateInterface;
+								_settings pushBack ["mapScaleDlg",[_displayName,"mapScaleDlg"] call cTab_fnc_getSettings];
+								_settings pushBack ["mapWorldPos",[_displayName,"mapWorldPos"] call cTab_fnc_getSettings];
+							};
+						};
+					};
+					// ---------- _NOT_ BFT -----------
+					if (_isDialog) then {
+						_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+						if (count _mapTypes > 1) then {
+							_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
+							_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+							_targetMapCtrl = _display displayCtrl _targetMapIDC;
+							
+							// If we find the map to be shown, we are switching away from BFT. Lets save map scale and position
+							if (ctrlShown _targetMapCtrl) then {
+								_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+								[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
 							};
 						};
 					};
@@ -192,6 +256,9 @@ if (isNil "_mode") then {
 						];
 						_btnActCtrl ctrlSetTooltip "View Gunner Optics";
 						_settings pushBack ["uavListUpdate",true];
+						if (!_interfaceInit) then {
+							_settings pushBack ["uavCam",[_displayName,"uavCam"] call cTab_fnc_getSettings];
+						};
 					};
 					// ---------- HELMET CAM -----------
 					if (_mode == "HCAM") exitWith {
@@ -202,12 +269,16 @@ if (isNil "_mode") then {
 						];
 						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 						_settings pushBack ["hCamListUpdate",true];
+						if (!_interfaceInit) then {
+							_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
+						};
 					};
 					// ---------- MESSAGING -----------
 					if (_mode == "MESSAGE") exitWith {
 						_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
 						call cTab_msg_gui_load;
 						cTabRscLayerMailNotification cutText ["", "PLAIN"];
+						_btnActCtrl ctrlSetTooltip "";
 					};
 					// ---------- MESSAGING COMPOSE -----------
 					if (_mode == "COMPOSE") exitWith {
@@ -468,13 +539,25 @@ if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
 	while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
 };
 
-// move mouse cursor to the center of the screen if its a dialog
-if (_interfaceInit && _isDialog) then {setMousePosition [0.5,0.5];};
-
 // now hide the "Loading" control since we are done
 if (!isNull _loadingCtrl) then {
+	// move mouse cursor to the center of the screen if its a dialog
+	if (_interfaceInit && _isDialog) then {
+		_ctrlPos = ctrlPosition _loadingCtrl;
+		// put the mouse position in the center of the screen
+		_mousePos = [(_ctrlPos select 0) + ((_ctrlPos select 2) / 2),(_ctrlPos select 1) + ((_ctrlPos select 3) / 2)];
+		// delay moving the mouse cursor by one frame using a PFH, for some reason its not working without
+		[{
+			[_this select 1] call CBA_fnc_removePerFrameHandler;
+			setMousePosition (_this select 0);
+		},0,_mousePos] call CBA_fnc_addPerFrameHandler;
+	};
+	
 	_loadingCtrl ctrlShow false;
 	while {ctrlShown _loadingCtrl} do {};
 };
+
+// call notification system
+if (_interfaceInit) then {[] call cTab_fnc_processNotifications};
 
 true
